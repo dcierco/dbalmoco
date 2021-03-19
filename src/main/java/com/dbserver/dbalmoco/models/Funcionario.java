@@ -36,7 +36,7 @@ public class Funcionario implements Serializable {
     @NotBlank(message = "O Nome do funcionário não pode estar vazio!")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "FUNCIONARIO", orphanRemoval = true)
+    @OneToMany(mappedBy="funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Voto> votos;
 
     @Column(name = "EMAIL")

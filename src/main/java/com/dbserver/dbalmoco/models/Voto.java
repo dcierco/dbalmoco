@@ -25,19 +25,19 @@ public class Voto implements Serializable {
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 3L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "RESTAURANTE_ID")
+    @JoinColumn(name = "RESTAURANTE_ID", nullable = false)
     private Restaurante restaurante;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "FUNCIONARIO_ID")
-    private Funcionario funcionário;
+    @JoinColumn(name = "FUNCIONARIO_ID", nullable = false)
+    private Funcionario funcionario;
 
     @Column
     private Date data;

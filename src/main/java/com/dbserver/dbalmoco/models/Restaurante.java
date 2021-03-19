@@ -25,7 +25,7 @@ public class Restaurante implements Serializable{
     /**
      Default serialVersionUID
      */
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,7 +35,7 @@ public class Restaurante implements Serializable{
     @NotBlank(message = "O nome do restaurante é obrigatório!")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "RESTAURANTE", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurante", orphanRemoval = true)
     private List<Voto> votos;
 
     @Column(name = "DESCRICAO")
