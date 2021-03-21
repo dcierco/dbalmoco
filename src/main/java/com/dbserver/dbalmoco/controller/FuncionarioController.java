@@ -25,31 +25,31 @@ import lombok.RequiredArgsConstructor;
 public class FuncionarioController {
     private final FuncionarioService funcionarioService;
 
-    @GetMapping("/funcionarios")
+    @GetMapping("/api/funcionarios")
     @ApiOperation(value = "Obtem a lista de todos os Funcionarios")
     public List<Funcionario> listarFuncionarios(){
         return funcionarioService.listarFuncionarios();
     }
 
-    @GetMapping("/funcionario/{id}")
+    @GetMapping("/api/funcionario/{id}")
     @ApiOperation(value = "Busca o Funcionario por ID")
     public Funcionario obterFuncionarioPorId(@PathVariable(value = "id") Integer id) {
         return funcionarioService.obterFuncionarioPorId(id);
     }
 
-    @PostMapping("/funcionario")
+    @PostMapping("/api/funcionario")
     @ApiOperation(value = "Salva o Funcionario informado")
     public Funcionario salvarFuncionario(@Valid @RequestBody Funcionario funcionario) {
         return funcionarioService.salvarFuncionario(funcionario);
     }
 
-    @PutMapping("/funcionario")
+    @PutMapping("/api/funcionario")
     @ApiOperation(value = "Atualiza o Funcionario informado")
     public Funcionario atualizarFuncionario(@Valid @RequestBody Funcionario funcionario) {
         return funcionarioService.atualizarFuncionario(funcionario);
     }
 
-    @DeleteMapping("/funcionario/{id}")
+    @DeleteMapping("/api/funcionario/{id}")
     @ApiOperation(value = "Exclui o Funcionario informado")
     public void excluirFuncionario(@PathVariable(value = "id") Integer id) {
         funcionarioService.excluirFuncionario(id);

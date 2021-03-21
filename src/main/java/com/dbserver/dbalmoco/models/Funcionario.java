@@ -1,6 +1,7 @@
 package com.dbserver.dbalmoco.models;
 
-import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,6 +15,12 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.dbserver.dbalmoco.config.UserRole;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,13 +28,13 @@ import lombok.Setter;
 @Table(name = "FUNCIONARIO")
 @Getter
 @Setter
-public class Funcionario implements Serializable {
-
+public class Funcionario implements UserDetails {
+    
     /**
      *
      */
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue
     private Integer id;
@@ -46,4 +53,40 @@ public class Funcionario implements Serializable {
     @Column(name = "SENHA")
     @Size(min = 5, max = 20, message = "A senha deve ter entre 5 e 20 caracteres!")
     private String password;
+
+    @Column(name = "role")
+    private UserRole userRole;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(userRole.name());
+        return Collections.singletonList(simpleGrantedAuthority);
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    
 }
