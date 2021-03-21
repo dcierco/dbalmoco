@@ -1,6 +1,6 @@
 package com.dbserver.dbalmoco.models;
 
-import java.util.Collection;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class Funcionario implements UserDetails {
     @OneToMany(mappedBy="funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Voto> votos;
 
-    @Column(name = "EMAIL")
+    @Column(name = "EMAIL", nullable = false, unique = true)
     @Email(message = "Email deve ser válido!")
     private String email;
 
@@ -58,7 +58,7 @@ public class Funcionario implements UserDetails {
     private UserRole userRole;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public List<? extends GrantedAuthority> getAuthorities() {
         final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(userRole.name());
         return Collections.singletonList(simpleGrantedAuthority);
     }

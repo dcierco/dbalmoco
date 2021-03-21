@@ -25,31 +25,31 @@ import lombok.RequiredArgsConstructor;
 public class RestauranteController {
     private final RestauranteService restauranteService;
 
-    @GetMapping("/restaurantes")
+    @GetMapping("/api/restaurantes")
     @ApiOperation(value = "Obtem a lista de todos os Restaurantes")
     public List<Restaurante> listarRestaurantes(){
         return restauranteService.listarRestaurantes();
     }
 
-    @GetMapping("/restaurante/{id}")
+    @GetMapping("/api/restaurante/{id}")
     @ApiOperation(value = "Busca o Restaurante por ID")
     public Restaurante obterRestaurantePorId(@PathVariable(value = "id") Integer id) {
         return restauranteService.obterRestaurantePorId(id);
     }
 
-    @PostMapping("/restaurante")
+    @PostMapping("/api/restaurante")
     @ApiOperation(value = "Salva o Restaurante informado")
     public Restaurante salvarRestaurante(@Valid @RequestBody Restaurante restaurante) {
         return restauranteService.salvarRestaurante(restaurante);
     }
 
-    @PutMapping("/restaurante")
+    @PutMapping("/api/restaurante")
     @ApiOperation(value = "Atualiza o Restaurante informado")
     public Restaurante atualizarRestaurante(@Valid @RequestBody Restaurante restaurante) {
         return restauranteService.atualizarRestaurante(restaurante);
     }
 
-    @DeleteMapping("/restaurante/{id}")
+    @DeleteMapping("/api/restaurante/{id}")
     @ApiOperation(value = "Exclui o Restaurante informado")
     public void excluirRestaurante(@PathVariable(value = "id") Integer id) {
         restauranteService.excluirRestaurante(id);

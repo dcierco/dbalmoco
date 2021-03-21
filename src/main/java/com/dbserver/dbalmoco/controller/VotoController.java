@@ -25,31 +25,31 @@ import lombok.RequiredArgsConstructor;
 public class VotoController {
     private final VotoService votoService;
 
-    @GetMapping("/votos")
+    @GetMapping("/api/votos")
     @ApiOperation(value = "Obtem a lista de todos os Votos")
     public List<Voto> listarVotos(){
         return votoService.listarVotos();
     }
 
-    @GetMapping("/voto/{id}")
+    @GetMapping("/api/voto/{id}")
     @ApiOperation(value = "Busca o Voto por ID")
     public Voto obterVotoPorId(@PathVariable(value = "id") Integer id) {
         return votoService.obterVotoPorId(id);
     }
 
-    @PostMapping("/voto")
+    @PostMapping("/api/voto")
     @ApiOperation(value = "Salva o Voto informado")
     public Voto salvarVoto(@Valid @RequestBody Voto voto) {
         return votoService.salvarVoto(voto);
     }
 
-    @PutMapping("/voto")
+    @PutMapping("/api/voto")
     @ApiOperation(value = "Atualiza o Voto informado")
     public Voto atualizarVoto(@Valid @RequestBody Voto voto) {
         return votoService.atualizarVoto(voto);
     }
 
-    @DeleteMapping("/voto/{id}")
+    @DeleteMapping("/api/voto/{id}")
     @ApiOperation(value = "Exclui o Voto informado")
     public void excluirVoto(@PathVariable(value = "id") Integer id) {
         votoService.excluirVoto(id);

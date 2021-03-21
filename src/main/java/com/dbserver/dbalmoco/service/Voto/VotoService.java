@@ -11,6 +11,7 @@ public interface VotoService {
   
     Voto salvarVoto(Voto voto);
     Voto atualizarVoto(Voto voto);
+    void excluirTodosVotos();
   
     void excluirVoto(Integer id);
 }

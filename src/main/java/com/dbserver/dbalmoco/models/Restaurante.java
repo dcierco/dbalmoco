@@ -1,6 +1,7 @@
 package com.dbserver.dbalmoco.models;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -47,7 +48,8 @@ public class Restaurante implements Serializable{
     @Size(min = 5, max = 50, message = "O endereço do restaurante deve ter entre 5 e 50 caracteres!")
     private String endereco;
 
-
+    @Column(name = "VOTADO_DATA")
+    private Date votado_data;
     
 
     

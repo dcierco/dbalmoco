@@ -43,4 +43,9 @@ public class VotoServiceImpl implements VotoService {
     public void excluirVoto(Integer id) {
         this.votoRepository.deleteById(id);
     }
+
+    @Override
+    public void excluirTodosVotos() {
+        this.votoRepository.deleteAll();
+    }
 }
