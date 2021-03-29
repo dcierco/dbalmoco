@@ -17,11 +17,13 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Entity(name = "Voto")
 @Table(name = "VOTO")
 @Data
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Builder
 public class Voto implements Serializable {
 
@@ -44,5 +46,5 @@ public class Voto implements Serializable {
 
     @Column
     private Date data;
-    
+
 }

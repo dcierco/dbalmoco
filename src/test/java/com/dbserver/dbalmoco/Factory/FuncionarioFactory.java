@@ -1,5 +1,6 @@
 package com.dbserver.dbalmoco.Factory;
 
+import com.dbserver.dbalmoco.config.UserRole;
 import com.dbserver.dbalmoco.models.Funcionario;
 
 public class FuncionarioFactory {
@@ -12,6 +13,7 @@ public class FuncionarioFactory {
                 nome(nome).
                 email(email).
                 password(senha).
+                userRole(UserRole.ROLE_USER).
                 build();
         return Funcionario;
     }

@@ -4,6 +4,8 @@ import com.dbserver.dbalmoco.Api.BaseTest;
 import com.dbserver.dbalmoco.Factory.FuncionarioFactory;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -15,143 +17,123 @@ import java.util.Random;
 
 public class FuncionarioPostTest extends BaseTest {
 
-    private FuncionarioFactory funcionario;
+        private FuncionarioFactory funcionario;
 
-    @BeforeClass
-    public void setup(){
-       funcionario = new FuncionarioFactory();
-    }
+        @BeforeClass
+        public void setup() {
+                funcionario = new FuncionarioFactory();
+        }
 
+        @Test
+        public void deveriaCadastrarUmNovoFuncionario() {
 
-    @Test
-    public void deveriaCadastrarUmNovoFuncionario() {
+                given().contentType(ContentType.JSON)
+                                .body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE - 1), "Teste",
+                                                "teste@teste.com", "teste123"))
+                                .post("/api/funcionario").then().log().all().assertThat().statusCode(HttpStatus.SC_OK);
+        }
 
-         given().
-                contentType(ContentType.JSON).
-                body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE-1) ,"Teste", "teste@teste.com", "teste123")).
-                post("/api/funcionario").
-                then().log().all().
-                assertThat().
-                statusCode(HttpStatus.SC_OK);
-    }
+        @Test
+        public void naoDeveriaCadastrarUmNovoFuncionarioEmailInvalido() {
 
-    @Test
-    public void naoDeveriaCadastrarUmNovoFuncionarioEmailInvalido() {
+                Response response = given().contentType(ContentType.JSON)
+                                .body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE - 1), "Teste", "teste",
+                                                "teste123"))
+                                .post("/api/funcionario").then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
+                                .extract().response();
 
-        Response response = given().
-                contentType(ContentType.JSON).
-                body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE-1), "Teste", "teste", "teste123")).
-                post("/api/funcionario").
-                then().log().all().
-                assertThat().
-                statusCode(HttpStatus.SC_BAD_REQUEST).
-                extract().
-                response();
-
-        Assert.assertEquals(response.getBody().asString(), "[\"Email deve ser válido!\"]");
-    }
+                Assert.assertTrue(response.getBody().asString().contains("[Email deve ser válido!]"));
+        }
 
     @Test
     public void naoDeveriaCadastrarUmNovoFuncionarioEmailNull() {
 
-        Response response = given().
-                contentType(ContentType.JSON).
-                body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE-1), "Teste", "teste", "teste123")).
-                post("/api/funcionario").
-                then().log().all().
-                assertThat().
-                statusCode(HttpStatus.SC_BAD_REQUEST).
-                extract().
-                response();
+        Response response = given().contentType(ContentType.JSON)
+                .body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE - 1), "Teste", null, "teste123"))
+                .post("/api/funcionario").then().log().all().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
+                .extract().response();
 
-        Assert.assertEquals(response.getBody().asString(), "[\"Email deve ser válido!\"]");
+        //Assert.assertEquals(response.getBody().asString(), "[\"Email deve ser válido!\"]");
+        Assert.assertTrue(response.getBody().asString().contains("[Email não pode ser Null!]"));
     }
 
-    @Test
-    public void naoDeveriaCadastrarUmNovoFuncionarioSemNome() {
-       Response response =  given().
-                contentType(ContentType.JSON).
-                body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE-1), null, "teste@teste.com", "teste123")).
-                post("/api/funcionario").
-                then().log().all().
-                assertThat().
-                statusCode(HttpStatus.SC_BAD_REQUEST).
-                extract().
-                response();
+        @Test
+        public void naoDeveriaCadastrarUmNovoFuncionarioSemNome() {
+                Response response = given().contentType(ContentType.JSON)
+                                .body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE - 1), null,
+                                                RandomStringUtils.randomAlphabetic(10) + "@teste.com", "teste123"))
+                                .post("/api/funcionario").then().log().all().assertThat()
+                                .statusCode(HttpStatus.SC_BAD_REQUEST).extract().response();
 
-        Assert.assertEquals(response.getBody().asString(), "[\"O Nome do funcionário não pode estar vazio!\"]");
-    }
+                // Assert.assertEquals(response.getBody().asString(), "[\"O Nome do funcionário
+                // não pode estar vazio!\"]");
+                Assert.assertTrue(response.getBody().asString()
+                                .contains("[O Nome do funcionário não pode estar vazio!]"));
+        }
 
-    @Test
-    public void naoDeveriaCadastrarUmNovoFuncionarioNomeVazio() {
-       Response response =  given().
-                contentType(ContentType.JSON).
-                body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE-1), "   ", "teste@teste.com", "teste123")).
-                post("/api/funcionario").
-                then().log().all().
-                assertThat().
-                statusCode(HttpStatus.SC_BAD_REQUEST).
-                extract().
-                response();
+        @Test
+        public void naoDeveriaCadastrarUmNovoFuncionarioNomeVazio() {
+                Response response = given().contentType(ContentType.JSON)
+                                .body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE - 1), "   ",
+                                                RandomStringUtils.randomAlphabetic(10) + "@teste.com", "teste123"))
+                                .post("/api/funcionario").then().log().all().assertThat()
+                                .statusCode(HttpStatus.SC_BAD_REQUEST).extract().response();
 
-        Assert.assertEquals(response.getBody().asString(), "[\"O Nome do funcionário não pode estar vazio!\"]");
-    }
+                Assert.assertTrue(response.getBody().asString()
+                                .contains("[O Nome do funcionário não pode estar vazio!]"));
+                // Assert.assertEquals(response.getBody().asString(), "[\"O Nome do funcionário
+                // não pode estar vazio!\"]");
+        }
 
-    @Test
-    public void deveriaCadastrarUmNovoFuncionarioSenha5Char(){
+        @Test
+        public void deveriaCadastrarUmNovoFuncionarioSenha5Char() {
 
-        given().
-                contentType(ContentType.JSON).
-                body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE-1) ,"Teste", "teste@teste.com", "12345")).
-                post("/funcionario").
-                then().log().all().
-                assertThat().
-                statusCode(HttpStatus.SC_OK);
-    }
+                given().contentType(ContentType.JSON)
+                                .body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE - 1), "Teste",
+                                                RandomStringUtils.randomAlphabetic(10) + "@teste.com", "12345"))
+                                .post("/api/funcionario").then().log().all().assertThat().statusCode(HttpStatus.SC_OK);
+        }
 
-    @Test
-    public void naoDeveriaCadastrarUmNovoFuncionarioSenha4Char(){
+        @Test
+        public void naoDeveriaCadastrarUmNovoFuncionarioSenha4Char() {
 
-        Response response = given().
-                contentType(ContentType.JSON).
-                body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE-1) ,"Teste", "teste@teste.com", "1234")).
-                post("/funcionario").
-                then().log().all().
-                assertThat().
-                statusCode(HttpStatus.SC_OK).
-                extract().
-                response();
+                Response response = given().contentType(ContentType.JSON)
+                                .body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE - 1), "Teste",
+                                                RandomStringUtils.randomAlphabetic(10) + "@teste.com", "1234"))
+                                .post("/api/funcionario").then().log().all().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
+                                .extract().response();
 
-                Assert.assertEquals(response.getBody().asString(), "[\"A senha deve ter entre 5 e 20 caracteres!\"]");
-    }
+                Assert.assertTrue(
+                                response.getBody().asString().contains("[A senha deve ter entre 5 e 20 caracteres!]"));
+                // Assert.assertEquals(response.getBody().asString(), "[\"A senha deve ter entre
+                // 5 e 20 caracteres!\"]");
+        }
 
-    @Test
-    public void naoDeveriaCadastrarUmNovoFuncionarioSenha21Char(){
+        @Test
+        public void naoDeveriaCadastrarUmNovoFuncionarioSenha21Char() {
 
-        Response response = given().
-                contentType(ContentType.JSON).
-                body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE-1) ,"Teste", "teste@teste.com", "senha com 21 characte")).
-                post("/funcionario").
-                then().log().all().
-                assertThat().
-                statusCode(HttpStatus.SC_OK).
-                extract().
-                response();
+                Response response = given().contentType(ContentType.JSON)
+                                .body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE - 1), "Teste",
+                                                RandomStringUtils.randomAlphabetic(10) + "@teste.com",
+                                                "senha com 21 characte"))
+                                .post("/api/funcionario").then().log().all().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
+                                .extract().response();
 
-                Assert.assertEquals(response.getBody().asString(), "[\"A senha deve ter entre 5 e 20 caracteres!\"]");
-    }
+                Assert.assertTrue(
+                                response.getBody().asString().contains("[A senha deve ter entre 5 e 20 caracteres!]"));
+                // Assert.assertEquals(response.getBody().asString(), "[\"A senha deve ter entre
+                // 5 e 20 caracteres!\"]");
+        }
 
-    @Test
-    public void deveriaCadastrarUmNovoFuncionarioSenha20Char(){
+        @Test
+        public void deveriaCadastrarUmNovoFuncionarioSenha20Char() {
 
-        given().
-                contentType(ContentType.JSON).
-                body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE-1) ,"Teste", "teste@teste.com", "senha com 21 charact")).
-                post("/funcionario").
-                then().log().all().
-                assertThat().
-                statusCode(HttpStatus.SC_OK);
-    }
+                given().contentType(ContentType.JSON)
+                                .body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE - 1), "Teste",
+                                                RandomStringUtils.randomAlphabetic(10) + "@teste.com",
+                                                "senha com 21 charact"))
+                                .post("/api/funcionario").then().log().all().assertThat().statusCode(HttpStatus.SC_OK);
+        }
 
-    //TODO: Gerar caso de teste se email já existe no banco.
+        // TODO: Gerar caso de teste se email já existe no banco.
 }

@@ -1,9 +1,7 @@
 package com.dbserver.dbalmoco.models;
 
-
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.dbserver.dbalmoco.config.UserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,14 +24,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Entity(name = "Funcionario")
 @Table(name = "FUNCIONARIO")
 @Data
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Builder
 public class Funcionario implements UserDetails {
-    
+
     /**
      *
      */
@@ -46,7 +47,7 @@ public class Funcionario implements UserDetails {
     @NotBlank(message = "O Nome do funcionário não pode estar vazio!")
     private String nome;
 
-    @OneToOne(mappedBy="funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
     private Voto voto;
 
     @NotNull(message = "Email não pode ser Null!")
@@ -62,10 +63,10 @@ public class Funcionario implements UserDetails {
     @Column(name = "role")
     private UserRole userRole;
 
+    @JsonIgnore
     @Override
-    public List<? extends GrantedAuthority> getAuthorities() {
-        final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(userRole.name());
-        return Collections.singletonList(simpleGrantedAuthority);
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority(userRole.name()));
     }
 
     @Override
@@ -93,5 +94,4 @@ public class Funcionario implements UserDetails {
         return true;
     }
 
-    
 }

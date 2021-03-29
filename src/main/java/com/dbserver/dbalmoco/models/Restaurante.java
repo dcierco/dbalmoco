@@ -17,18 +17,18 @@ import javax.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-
+import lombok.RequiredArgsConstructor;
 
 @Entity(name = "Restaurante")
 @Table(name = "RESTAURANTE")
 @Data
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Builder
-public class Restaurante implements Serializable{
+public class Restaurante implements Serializable {
 
     /**
-     Default serialVersionUID
+     * Default serialVersionUID
      */
     private static final long serialVersionUID = 2L;
 
@@ -54,7 +54,5 @@ public class Restaurante implements Serializable{
 
     @Column(name = "VOTADO_DATA")
     private Date votado_data;
-    
 
-    
 }
