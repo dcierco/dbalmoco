@@ -17,6 +17,6 @@ public class BaseTest extends AbstractTestNGSpringContextTests implements ITestL
     @BeforeClass
     public void setup(){
         baseURI = "http://localhost:8080/";
-        basePath = "api/";
+        basePath = "";
     }
 }
