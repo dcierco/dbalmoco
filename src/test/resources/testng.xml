@@ -1,0 +1,21 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="API-Tests" >
+    <test name="funcionarioTest" >
+        <packages>
+            <package name = "com.dbserver.dbalmoco.Api.Funcionario"/>
+        </packages>
+    </test>
+
+    <test name="restauranteTest" >
+        <packages>
+            <package name = "com.dbserver.dbalmoco.Api.Restaurante"/>
+        </packages>
+    </test>
+
+    <test name="votoTest" >
+        <packages>
+            <package name = "com.dbserver.dbalmoco.Api.Voto"/>
+        </packages>
+    </test>
+
+</suite>

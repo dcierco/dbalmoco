@@ -28,7 +28,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception{
         http.csrf().disable().authorizeRequests(authorizeRequests ->
         authorizeRequests
-        .antMatchers("/api/restaurantes/*").hasAnyRole("ADMIN", "USER")
+        //.antMatchers("/api/**").hasAnyRole("ADMIN", "USER")
         .antMatchers("/").permitAll())
         .httpBasic().realmName("DBAlmocoRealm").and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

@@ -25,7 +25,7 @@ public class VotoServiceImpl implements VotoService {
 
     @Override
     public Voto obterVotoPorId(Integer id) throws NoSuchElementException{
-        return this.votoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Não existe no banco de dados funcionário com o id:" + id));
+        return this.votoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Não existe no banco de dados voto com o id:" + id));
     }
 
     @Override

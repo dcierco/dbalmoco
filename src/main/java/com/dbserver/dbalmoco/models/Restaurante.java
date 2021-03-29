@@ -14,13 +14,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.*;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
+
 
 @Entity(name = "Restaurante")
 @Table(name = "RESTAURANTE")
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@Builder
 public class Restaurante implements Serializable{
 
     /**
@@ -34,7 +38,7 @@ public class Restaurante implements Serializable{
 
     @Column(name = "NOME")
     @NotBlank(message = "O nome do restaurante é obrigatório!")
-    private String name;
+    private String nome;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurante", orphanRemoval = true)
     private List<Voto> votos;

@@ -28,7 +28,7 @@ public class RestauranteServiceImpl implements RestauranteService{
 
     @Override
     public Restaurante obterRestaurantePorId(Integer id) throws NoSuchElementException{
-        return this.restauranteRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Não existe no banco de dados funcionário com o id:" + id));
+        return this.restauranteRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Não existe no banco de dados restaurante com o id:" + id));
     }
 
     @Override

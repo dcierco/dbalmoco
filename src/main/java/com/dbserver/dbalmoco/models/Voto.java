@@ -11,15 +11,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 @Entity(name = "Voto")
 @Table(name = "VOTO")
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@Builder
 public class Voto implements Serializable {
 
     /**
@@ -35,7 +38,7 @@ public class Voto implements Serializable {
     @JoinColumn(name = "RESTAURANTE_ID", nullable = false)
     private Restaurante restaurante;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FUNCIONARIO_ID", nullable = false)
     private Funcionario funcionario;
 

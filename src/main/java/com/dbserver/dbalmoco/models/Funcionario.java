@@ -9,10 +9,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.dbserver.dbalmoco.config.UserRole;
@@ -21,13 +22,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 @Entity(name = "Funcionario")
 @Table(name = "FUNCIONARIO")
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@Builder
 public class Funcionario implements UserDetails {
     
     /**
@@ -41,16 +44,18 @@ public class Funcionario implements UserDetails {
 
     @Column(name = "NOME")
     @NotBlank(message = "O Nome do funcionário não pode estar vazio!")
-    private String name;
+    private String nome;
 
-    @OneToMany(mappedBy="funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Voto> votos;
+    @OneToOne(mappedBy="funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Voto voto;
 
+    @NotNull(message = "Email não pode ser Null!")
     @Column(name = "EMAIL", nullable = false, unique = true)
     @Email(message = "Email deve ser válido!")
     private String email;
 
-    @Column(name = "SENHA")
+    @NotNull(message = "Senha não pode ser null!")
+    @Column(name = "SENHA", nullable = false)
     @Size(min = 5, max = 20, message = "A senha deve ter entre 5 e 20 caracteres!")
     private String password;
 
