@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -40,7 +41,7 @@ public class Funcionario implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY) 
     private Integer id;
 
     @Column(name = "NOME")
@@ -60,7 +61,7 @@ public class Funcionario implements UserDetails {
     @Size(min = 5, max = 20, message = "A senha deve ter entre 5 e 20 caracteres!")
     private String password;
 
-    @Column(name = "role")
+    @Column(name = "ROLE")
     private UserRole userRole;
 
     @JsonIgnore

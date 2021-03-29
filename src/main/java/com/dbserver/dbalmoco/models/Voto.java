@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,7 +34,7 @@ public class Voto implements Serializable {
     private static final long serialVersionUID = 3L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -44,7 +45,8 @@ public class Voto implements Serializable {
     @JoinColumn(name = "FUNCIONARIO_ID", nullable = false)
     private Funcionario funcionario;
 
-    @Column
+    @Column(name = "DATA")
+    @NotNull
     private Date data;
 
 }
