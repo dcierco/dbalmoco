@@ -54,4 +54,10 @@ public class RestauranteController {
     public void excluirRestaurante(@PathVariable(value = "id") Integer id) {
         restauranteService.excluirRestaurante(id);
     }
+
+    @GetMapping("/api/restaurantes/maisvotado")
+    @ApiOperation(value = "Obtem o restaurante mais votado do dia!")
+    public Restaurante obterMaisVotadoDia(){
+        return restauranteService.obterMaisVotadoDia();
+    }
 }

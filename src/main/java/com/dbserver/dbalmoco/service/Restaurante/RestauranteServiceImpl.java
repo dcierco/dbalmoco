@@ -68,12 +68,12 @@ public class RestauranteServiceImpl implements RestauranteService{
 
     @Override
     public List<Restaurante> listaRestaurantesVotaveis() {
-        return StreamSupport.stream(this.restauranteRepository.findAll().spliterator(), false).filter(p -> foiVotadoEssaSemana(p)).collect(Collectors.toList());
+        return StreamSupport.stream(this.restauranteRepository.findAll().spliterator(), false).filter(p -> !foiVotadoEssaSemana(p)).collect(Collectors.toList());
     }
 
     @Override
     public Restaurante obterMaisVotadoDia() {
-        return StreamSupport.stream(this.restauranteRepository.findAll().spliterator(), true).filter(p -> foiVotadoEssaSemana(p)).max(new CompareRestaurantesVotos()).orElseThrow(() -> new NullPointerException("Stream de restaurantes está vazia."));
+        return StreamSupport.stream(this.restauranteRepository.findAll().spliterator(), true).filter(p -> !foiVotadoEssaSemana(p)).max(new CompareRestaurantesVotos()).orElseThrow(() -> new NullPointerException("Stream de restaurantes está vazia."));
     }
 
     private class CompareRestaurantesVotos implements Comparator<Restaurante>{
@@ -83,6 +83,12 @@ public class RestauranteServiceImpl implements RestauranteService{
             int b = o2.getVotos().size();
             return Integer.compare(a, b);
         }
+    }
+
+    @Override
+    public void atualizaMaisVotadoDia() {
+        // TODO: Criar médtodo e atualizar entradas.
+        
     }
 
     

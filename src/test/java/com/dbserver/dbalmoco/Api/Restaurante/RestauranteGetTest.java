@@ -20,9 +20,9 @@ public class RestauranteGetTest extends BaseTest {
 
         Response resp = given().
                 basePath(basePath).
-                when().log().all().
+                when().
                 get("/api/restaurantes").
-                then().log().all().
+                then().
                 assertThat().
                 statusCode(HttpStatus.SC_OK).extract().response();
 
@@ -36,9 +36,9 @@ public class RestauranteGetTest extends BaseTest {
     public void deveriaPesquisarRestauranteIdValido(){
         given().
                 basePath(basePath).
-                when().log().all().
+                when().
                 get("/api/Restaurante/{id}", 1).
-                then().log().all().
+                then().
                 assertThat().
                 statusCode(HttpStatus.SC_OK).
                 extract().
@@ -52,9 +52,9 @@ public class RestauranteGetTest extends BaseTest {
         Response resp =
                 given().
                         basePath(basePath).
-                        when().log().all().
+                        when().
                         get("/api/restaurante/{id}", Integer.MAX_VALUE).
-                        then().log().all().
+                        then().
                         assertThat().
                         statusCode(HttpStatus.SC_NOT_FOUND).
                         extract().

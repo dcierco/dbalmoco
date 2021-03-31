@@ -55,4 +55,10 @@ public class VotoController {
         votoService.excluirVoto(id);
     }
 
+    @DeleteMapping("/api/votos")
+    @ApiOperation(value = "Exclui todos os votos")
+    public void excluirVotos(){
+        votoService.excluirTodosVotos();
+    }
+
 }
