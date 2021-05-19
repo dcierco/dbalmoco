@@ -16,49 +16,30 @@ import static io.restassured.RestAssured.given;
 public class RestauranteGetTest extends BaseTest {
 
     @Test
-    public void deveListarRestaurantes(){
+    public void deveListarRestaurantes() {
 
-        Response resp = given().
-                basePath(basePath).
-                when().
-                get("/api/restaurantes").
-                then().
-                assertThat().
-                statusCode(HttpStatus.SC_OK).extract().response();
+        Response resp = given().basePath(basePath).when().get("/api/restaurantes").then().assertThat()
+                .statusCode(HttpStatus.SC_OK).extract().response();
 
         List<Restaurante> listaRestauranteModels = resp.jsonPath().getList("", Restaurante.class);
 
-        //TODO:Editar o nome pra se adequar as entradas do banco.
+        // TODO:Editar o nome pra se adequar as entradas do banco.
         Assert.assertEquals(listaRestauranteModels.get(0).getNome(), "nome vai aqui");
     }
 
     @Test
-    public void deveriaPesquisarRestauranteIdValido(){
-        given().
-                basePath(basePath).
-                when().
-                get("/api/Restaurante/{id}", 1).
-                then().
-                assertThat().
-                statusCode(HttpStatus.SC_OK).
-                extract().
-                response();
+    public void deveriaPesquisarRestauranteIdValido() {
+        given().basePath(basePath).when().get("/api/Restaurante/{id}", 1).then().assertThat()
+                .statusCode(HttpStatus.SC_OK).extract().response();
 
-        //TODO: Inserir entrada no banco para teste ser possivel.
+        // TODO: Inserir entrada no banco para teste ser possivel.
     }
 
     @Test
-    public void deveriaPesquisarRestauranteIdInvalido(){
-        Response resp =
-                given().
-                        basePath(basePath).
-                        when().
-                        get("/api/restaurante/{id}", Integer.MAX_VALUE).
-                        then().
-                        assertThat().
-                        statusCode(HttpStatus.SC_NOT_FOUND).
-                        extract().
-                        response();
-        Assert.assertEquals(resp.getBody().asString(), "Não existe no banco de dados restaurante com o id:" + Integer.MAX_VALUE);
+    public void deveriaPesquisarRestauranteIdInvalido() {
+        Response resp = given().basePath(basePath).when().get("/api/restaurante/{id}", Integer.MAX_VALUE).then()
+                .assertThat().statusCode(HttpStatus.SC_NOT_FOUND).extract().response();
+        Assert.assertEquals(resp.getBody().asString(),
+                "Não existe no banco de dados restaurante com o id:" + Integer.MAX_VALUE);
     }
 }

@@ -21,18 +21,15 @@ public class HttpErrorExceptionHandler {
   @ResponseStatus(NOT_FOUND)
   @ExceptionHandler(EntityNotFoundException.class)
   @ResponseBody
-  public ResponseEntity<String> tratarErroRecursoNaoEncontrado(RuntimeException excecao) {
-    return ResponseEntity.status(NOT_FOUND).body(excecao.getMessage());
+  public ResponseEntity<String> tratarErroRecursoNaoEncontrado(RuntimeException exception) {
+    return ResponseEntity.status(NOT_FOUND).body(exception.getMessage());
   }
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<List<String>> tratarErroParametrosInvalidos(MethodArgumentNotValidException excecao) {
-    List<String> listaErros = excecao.getBindingResult()
-        .getAllErrors().stream()
-        .map(ObjectError::getDefaultMessage)
+  public ResponseEntity<List<String>> tratarErroParametrosInvalidos(MethodArgumentNotValidException exception) {
+    List<String> ListErrors = exception.getBindingResult().getAllErrors().stream().map(ObjectError::getDefaultMessage)
         .collect(Collectors.toList());
-    return ResponseEntity.status(BAD_REQUEST).body(listaErros);
+    return ResponseEntity.status(BAD_REQUEST).body(ListErrors);
   }
 }
-

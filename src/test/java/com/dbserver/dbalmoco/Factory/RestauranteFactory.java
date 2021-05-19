@@ -8,7 +8,7 @@ public class RestauranteFactory {
 
     public RestauranteFactory(){}
 
-    public Restaurante factory(Integer id, String nome, String descricao, String endereco, String votado_data){
+    public Restaurante factory(Integer id, String nome, String descricao, String endereco){
         Restaurante Restaurante = com.dbserver.dbalmoco.models.Restaurante.builder().
                 id(id).
                 nome(nome).

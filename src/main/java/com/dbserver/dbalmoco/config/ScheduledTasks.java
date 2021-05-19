@@ -17,7 +17,7 @@ public class ScheduledTasks {
     RestauranteService restauranteService;
 
     @Scheduled(cron = "0 30 11 * * *")
-    public void atualizaMaisVotado(){
+    public void atualizaMaisVotado() {
         this.restauranteService.atualizaMaisVotadoDia();
         this.votoService.excluirTodosVotos();
     }

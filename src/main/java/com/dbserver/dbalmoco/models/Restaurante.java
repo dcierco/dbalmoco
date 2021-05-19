@@ -55,4 +55,7 @@ public class Restaurante implements Serializable {
     @Column(name = "VOTADO_DATA")
     private Date votado_data;
 
+    @Column(name = "VOTADO_DIA")
+    private boolean votado_dia;
+
 }

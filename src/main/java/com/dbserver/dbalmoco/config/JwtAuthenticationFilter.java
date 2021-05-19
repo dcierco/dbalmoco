@@ -17,14 +17,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
-
-public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
+public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private String jwtAudience;
     private String jwtIssuer;
     private String jwtSecret;
     private String jwtType;
+
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager, String jwtAudience, String jwtIssuer,
-    String jwtSecret, String jwtType) {
+            String jwtSecret, String jwtType) {
         this.jwtAudience = jwtAudience;
         this.jwtIssuer = jwtIssuer;
         this.jwtSecret = jwtSecret;
@@ -35,18 +35,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-        FilterChain filterChain, Authentication authentication) {
-        User user = (User)authentication.getPrincipal();
+            FilterChain filterChain, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
         SecretKey secretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes());
-        String token = Jwts.builder()
-            .signWith(secretKey, SignatureAlgorithm.HS512)
-            .setHeaderParam("typ", jwtType)
-            .setIssuer(jwtIssuer)
-            .setAudience(jwtAudience)
-            .setSubject(user.getUsername())
-            .setExpiration(new Date(System.currentTimeMillis() + 864000000))
-            .compact();
+        String token = Jwts.builder().signWith(secretKey, SignatureAlgorithm.HS512).setHeaderParam("typ", jwtType)
+                .setIssuer(jwtIssuer).setAudience(jwtAudience).setSubject(user.getUsername())
+                .setExpiration(new Date(System.currentTimeMillis() + 864000000)).compact();
 
-    response.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
-}
+        response.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+    }
 }

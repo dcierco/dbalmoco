@@ -14,21 +14,23 @@ import com.dbserver.dbalmoco.repository.RestauranteRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RestauranteServiceImpl implements RestauranteService{
+public class RestauranteServiceImpl implements RestauranteService {
     private final RestauranteRepository restauranteRepository;
 
-    public RestauranteServiceImpl(RestauranteRepository restauranteRepository){
+    public RestauranteServiceImpl(RestauranteRepository restauranteRepository) {
         this.restauranteRepository = restauranteRepository;
     }
 
     @Override
     public List<Restaurante> listarRestaurantes() {
-        return StreamSupport.stream(this.restauranteRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        return StreamSupport.stream(this.restauranteRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Restaurante obterRestaurantePorId(Integer id) throws NoSuchElementException{
-        return this.restauranteRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Não existe no banco de dados restaurante com o id:" + id));
+    public Restaurante obterRestaurantePorId(Integer id) throws NoSuchElementException {
+        return this.restauranteRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException("Não existe no banco de dados restaurante com o id:" + id));
     }
 
     @Override
@@ -47,8 +49,10 @@ public class RestauranteServiceImpl implements RestauranteService{
         this.restauranteRepository.deleteById(id);
     }
 
-    private boolean foiVotadoEssaSemana(Restaurante restaurante){
-        if(restaurante.getVotado_data() == null){return false;}
+    private boolean foiVotadoEssaSemana(Restaurante restaurante) {
+        if (restaurante.getVotado_data() == null) {
+            return false;
+        }
 
         Calendar c = Calendar.getInstance();
         c.setFirstDayOfWeek(Calendar.MONDAY);
@@ -61,22 +65,24 @@ public class RestauranteServiceImpl implements RestauranteService{
 
         Date monday = c.getTime();
 
-        Date nextMonday= new Date(monday.getTime()+7*24*60*60*1000);
+        Date nextMonday = new Date(monday.getTime() + 7 * 24 * 60 * 60 * 1000);
 
         return restaurante.getVotado_data().after(monday) && restaurante.getVotado_data().before(nextMonday);
     }
 
     @Override
     public List<Restaurante> listaRestaurantesVotaveis() {
-        return StreamSupport.stream(this.restauranteRepository.findAll().spliterator(), false).filter(p -> !foiVotadoEssaSemana(p)).collect(Collectors.toList());
+        return StreamSupport.stream(this.restauranteRepository.findAll().spliterator(), false)
+                .filter(p -> !foiVotadoEssaSemana(p)).collect(Collectors.toList());
     }
 
     @Override
     public Restaurante obterMaisVotadoDia() {
-        return StreamSupport.stream(this.restauranteRepository.findAll().spliterator(), true).filter(p -> !foiVotadoEssaSemana(p)).max(new CompareRestaurantesVotos()).orElseThrow(() -> new NullPointerException("Stream de restaurantes está vazia."));
+        return this.restauranteRepository.findAllVotadoDia()
+                .orElseThrow(() -> new NullPointerException("Stream de restaurantes está vazia.")).get(0);
     }
 
-    private class CompareRestaurantesVotos implements Comparator<Restaurante>{
+    private class CompareRestaurantesVotos implements Comparator<Restaurante> {
         @Override
         public int compare(Restaurante o1, Restaurante o2) {
             int a = o1.getVotos().size();
@@ -87,9 +93,18 @@ public class RestauranteServiceImpl implements RestauranteService{
 
     @Override
     public void atualizaMaisVotadoDia() {
-        // TODO: Criar médtodo e atualizar entradas.
-        
+        limpaMaisVotadosDia();
+        Restaurante maisVotadoDia = listaRestaurantesVotaveis().parallelStream().max(new CompareRestaurantesVotos())
+                .orElseThrow(() -> new NullPointerException("Stream de restaurantes está vazia."));
+        maisVotadoDia.setVotado_dia(true);
+        restauranteRepository.save(maisVotadoDia);
     }
 
-    
+    private void limpaMaisVotadosDia() {
+        this.restauranteRepository.findAllVotadoDia()
+                .orElseThrow(() -> new NullPointerException("Stream de restaurantes está vazia.")).parallelStream()
+                .peek(p -> p.setVotado_dia(false)).forEach(q -> this.restauranteRepository.save((q)));
+        ;
+    }
+
 }

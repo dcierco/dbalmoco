@@ -10,24 +10,25 @@ import com.dbserver.dbalmoco.repository.FuncionarioRepository;
 
 import org.springframework.stereotype.Service;
 
-
 @Service
-public class FuncionarioServiceImpl implements FuncionarioService{
+public class FuncionarioServiceImpl implements FuncionarioService {
 
     private final FuncionarioRepository funcionarioRepository;
 
-    public FuncionarioServiceImpl(FuncionarioRepository funcionarioRepository){
+    public FuncionarioServiceImpl(FuncionarioRepository funcionarioRepository) {
         this.funcionarioRepository = funcionarioRepository;
     }
 
     @Override
     public List<Funcionario> listarFuncionarios() {
-        return StreamSupport.stream(this.funcionarioRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        return StreamSupport.stream(this.funcionarioRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Funcionario obterFuncionarioPorId(Integer id) throws NoSuchElementException{
-        return this.funcionarioRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Não existe no banco de dados funcionário com o id:" + id));
+    public Funcionario obterFuncionarioPorId(Integer id) throws NoSuchElementException {
+        return this.funcionarioRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException("Não existe no banco de dados funcionário com o id:" + id));
     }
 
     @Override

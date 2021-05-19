@@ -10,9 +10,8 @@ public class VotoFactory {
 
     public VotoFactory(){}
 
-    public Voto factory(Integer id, Restaurante restaurante, Funcionario funcionario, Date vdDate){
+    public Voto factory(Restaurante restaurante, Funcionario funcionario, Date vdDate){
         Voto Voto = com.dbserver.dbalmoco.models.Voto.builder().
-                id(id).
                 restaurante(restaurante).
                 funcionario(funcionario).
                 data(vdDate).

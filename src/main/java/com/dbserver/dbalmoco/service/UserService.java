@@ -15,14 +15,14 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class UserService implements UserDetailsService{
+public class UserService implements UserDetailsService {
 	private final FuncionarioRepository funcionarioRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		final Optional<Funcionario> optionalUser = funcionarioRepository.findByEmail(email);
-		return optionalUser.orElseThrow(() -> new UsernameNotFoundException(MessageFormat.format("Funcionario com email {0} não está cadastrado.", email)));
+		return optionalUser.orElseThrow(() -> new UsernameNotFoundException(
+				MessageFormat.format("Funcionario com email {0} não está cadastrado.", email)));
 	}
-
 
 }

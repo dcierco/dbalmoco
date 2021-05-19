@@ -1,6 +1,5 @@
 package com.dbserver.dbalmoco.config;
 
-
 import com.dbserver.dbalmoco.service.UserService;
 
 import org.springframework.context.annotation.Bean;
@@ -19,28 +18,21 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserService userService;
 
     @Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception{
-        http.csrf().disable().authorizeRequests(authorizeRequests ->
-        authorizeRequests
-        //.antMatchers("/api/**").hasAnyRole("ADMIN", "USER")
-        .antMatchers("/").permitAll())
-        .httpBasic().realmName("DBAlmocoRealm").and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userService)
-		.passwordEncoder(bCryptPasswordEncoder());
-	}
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable().authorizeRequests(authorizeRequests -> authorizeRequests
+                // .antMatchers("/api/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/").permitAll()).httpBasic().realmName("DBAlmocoRealm").and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
+    }
 
-
-    
 }

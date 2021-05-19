@@ -15,7 +15,6 @@ import static io.restassured.RestAssured.given;
 
 import java.util.Random;
 
-
 public class FuncionarioPostTest extends BaseTest {
 
         private FuncionarioFactory funcionario;
@@ -46,16 +45,17 @@ public class FuncionarioPostTest extends BaseTest {
                 Assert.assertEquals(response.getBody().asString(), "[\"Email deve ser válido!\"]");
         }
 
-    @Test
-    public void naoDeveriaCadastrarUmNovoFuncionarioEmailNull() {
+        @Test
+        public void naoDeveriaCadastrarUmNovoFuncionarioEmailNull() {
 
-        Response response = given().contentType(ContentType.JSON)
-                .body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE - 1), "Teste", null, "teste123"))
-                .post("/api/funcionario").then().log().all().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
-                .extract().response();
+                Response response = given().contentType(ContentType.JSON)
+                                .body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE - 1), "Teste", null,
+                                                "teste123"))
+                                .post("/api/funcionario").then().log().all().assertThat()
+                                .statusCode(HttpStatus.SC_BAD_REQUEST).extract().response();
 
-        Assert.assertEquals(response.getBody().asString(), "[\"Email não pode ser Null!\"]");
-    }
+                Assert.assertEquals(response.getBody().asString(), "[\"Email não pode ser Null!\"]");
+        }
 
         @Test
         public void naoDeveriaCadastrarUmNovoFuncionarioSemNome() {
@@ -65,7 +65,7 @@ public class FuncionarioPostTest extends BaseTest {
                                 .post("/api/funcionario").then().log().all().assertThat()
                                 .statusCode(HttpStatus.SC_BAD_REQUEST).extract().response();
 
-                 Assert.assertEquals(response.getBody().asString(), "[\"O Nome do funcionário não pode estar vazio!\"]");
+                Assert.assertEquals(response.getBody().asString(), "[\"O Nome do funcionário não pode estar vazio!\"]");
         }
 
         @Test
@@ -94,8 +94,8 @@ public class FuncionarioPostTest extends BaseTest {
                 Response response = given().contentType(ContentType.JSON)
                                 .body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE - 1), "Teste",
                                                 RandomStringUtils.randomAlphabetic(10) + "@teste.com", "1234"))
-                                .post("/api/funcionario").then().log().all().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
-                                .extract().response();
+                                .post("/api/funcionario").then().log().all().assertThat()
+                                .statusCode(HttpStatus.SC_BAD_REQUEST).extract().response();
 
                 Assert.assertEquals(response.getBody().asString(), "[\"A senha deve ter entre 5 e 20 caracteres!\"]");
         }
@@ -107,10 +107,9 @@ public class FuncionarioPostTest extends BaseTest {
                                 .body(funcionario.factory(new Random().nextInt(Integer.MAX_VALUE - 1), "Teste",
                                                 RandomStringUtils.randomAlphabetic(10) + "@teste.com",
                                                 "senha com 21 characte"))
-                                .post("/api/funcionario").then().log().all().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
-                                .extract().response();
+                                .post("/api/funcionario").then().log().all().assertThat()
+                                .statusCode(HttpStatus.SC_BAD_REQUEST).extract().response();
 
-                
                 Assert.assertEquals(response.getBody().asString(), "[\"A senha deve ter entre 5 e 20 caracteres!\"]");
         }
 

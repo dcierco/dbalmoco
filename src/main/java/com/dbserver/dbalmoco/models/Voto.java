@@ -39,10 +39,12 @@ public class Voto implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "RESTAURANTE_ID", nullable = false)
+    @NotNull(message = "Voto deve obrigatóriamente ter um restaurente.")
     private Restaurante restaurante;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FUNCIONARIO_ID", nullable = false)
+    @NotNull(message = "Voto deve obrigatóriamente ter um votante.")
     private Funcionario funcionario;
 
     @Column(name = "DATA")

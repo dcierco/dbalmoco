@@ -20,20 +20,16 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         final String basePackageApi = DbalmocoApplication.class.getPackage().getName();
-        return new Docket(DocumentationType.SWAGGER_2)
-        .select()
-        .apis(RequestHandlerSelectors.basePackage(basePackageApi))
-        .paths(PathSelectors.any())
-        .build()
-        .apiInfo(apiInfo());
+        return new Docket(DocumentationType.SWAGGER_2).select()
+                .apis(RequestHandlerSelectors.basePackage(basePackageApi)).paths(PathSelectors.any()).build()
+                .apiInfo(apiInfo());
     }
 
-    private ApiInfo apiInfo(){
+    private ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo("DBSAlmoço",
-        "Sistema para votação de restaurantes para almoço dos funcionários da db",
-        "0.1 (Alpha Release)",
-        null,
-        new Contact("Daniel Cierco", "https://github.com/dcierco", "daniel_cierco@live.com"), null, null, new ArrayList<>());
+                "Sistema para votação de restaurantes para almoço dos funcionários da db", "0.1 (Alpha Release)", null,
+                new Contact("Daniel Cierco", "https://github.com/dcierco", "daniel_cierco@live.com"), null, null,
+                new ArrayList<>());
 
         return apiInfo;
     }

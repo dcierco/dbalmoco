@@ -27,7 +27,7 @@ public class RestauranteController {
 
     @GetMapping("/api/restaurantes")
     @ApiOperation(value = "Obtem a lista de todos os Restaurantes")
-    public List<Restaurante> listarRestaurantes(){
+    public List<Restaurante> listarRestaurantes() {
         return restauranteService.listarRestaurantes();
     }
 
@@ -57,7 +57,7 @@ public class RestauranteController {
 
     @GetMapping("/api/restaurantes/maisvotado")
     @ApiOperation(value = "Obtem o restaurante mais votado do dia!")
-    public Restaurante obterMaisVotadoDia(){
+    public Restaurante obterMaisVotadoDia() {
         return restauranteService.obterMaisVotadoDia();
     }
 }

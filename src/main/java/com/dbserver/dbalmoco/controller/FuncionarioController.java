@@ -27,7 +27,7 @@ public class FuncionarioController {
 
     @GetMapping("/api/funcionarios")
     @ApiOperation(value = "Obtem a lista de todos os Funcionarios")
-    public List<Funcionario> listarFuncionarios(){
+    public List<Funcionario> listarFuncionarios() {
         return funcionarioService.listarFuncionarios();
     }
 

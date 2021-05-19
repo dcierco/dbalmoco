@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface FuncionarioRepository extends CrudRepository<Funcionario, Integer> {
 
     Optional<Funcionario> findByEmail(String email);
-    
+
 }

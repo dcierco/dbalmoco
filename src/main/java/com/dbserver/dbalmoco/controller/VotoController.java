@@ -27,7 +27,7 @@ public class VotoController {
 
     @GetMapping("/api/votos")
     @ApiOperation(value = "Obtem a lista de todos os Votos")
-    public List<Voto> listarVotos(){
+    public List<Voto> listarVotos() {
         return votoService.listarVotos();
     }
 
@@ -57,7 +57,7 @@ public class VotoController {
 
     @DeleteMapping("/api/votos")
     @ApiOperation(value = "Exclui todos os votos")
-    public void excluirVotos(){
+    public void excluirVotos() {
         votoService.excluirTodosVotos();
     }
 
