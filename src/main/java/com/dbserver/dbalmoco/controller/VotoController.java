@@ -2,6 +2,7 @@ package com.dbserver.dbalmoco.controller;
 
 import java.util.List;
 
+import javax.activity.InvalidActivityException;
 import javax.validation.Valid;
 
 import com.dbserver.dbalmoco.models.Voto;
@@ -41,6 +42,12 @@ public class VotoController {
     @ApiOperation(value = "Salva o Voto informado")
     public Voto salvarVoto(@Valid @RequestBody Voto voto) {
         return votoService.salvarVoto(voto);
+    }
+
+    @PostMapping("/api/votar")
+    @ApiOperation(value = "Efetua um voto, caso seja valido")
+    public Voto votar(int idUser, int idRestaurante) throws Exception{
+        return votoService.votar(idUser, idRestaurante);
     }
 
     @PutMapping("/api/voto")

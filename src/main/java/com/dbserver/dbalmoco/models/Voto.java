@@ -15,11 +15,17 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+@JsonSerialize
 @Entity(name = "Voto")
 @Table(name = "VOTO")
 @Data
@@ -40,6 +46,7 @@ public class Voto implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "RESTAURANTE_ID", nullable = false)
     @NotNull(message = "Voto deve obrigatóriamente ter um restaurente.")
+    @JsonBackReference
     private Restaurante restaurante;
 
     @OneToOne(fetch = FetchType.LAZY)

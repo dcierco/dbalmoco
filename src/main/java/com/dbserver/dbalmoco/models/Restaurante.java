@@ -14,11 +14,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Data; 
 import lombok.RequiredArgsConstructor;
 
+@JsonSerialize
 @Entity(name = "Restaurante")
 @Table(name = "RESTAURANTE")
 @Data
@@ -41,6 +45,7 @@ public class Restaurante implements Serializable {
     private String nome;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurante", orphanRemoval = true)
+    @JsonManagedReference
     private List<Voto> votos;
 
     @Column(name = "DESCRICAO")

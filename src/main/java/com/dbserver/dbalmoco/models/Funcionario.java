@@ -17,6 +17,7 @@ import javax.validation.constraints.Size;
 
 import com.dbserver.dbalmoco.config.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,6 +28,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+@JsonSerialize
 @Entity(name = "Funcionario")
 @Table(name = "FUNCIONARIO")
 @Data
@@ -48,6 +50,7 @@ public class Funcionario implements UserDetails {
     @NotBlank(message = "O Nome do funcionário não pode estar vazio!")
     private String nome;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
     private Voto voto;
 

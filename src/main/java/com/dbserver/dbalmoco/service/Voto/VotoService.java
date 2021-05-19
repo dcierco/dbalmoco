@@ -3,6 +3,8 @@ package com.dbserver.dbalmoco.service.Voto;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import javax.activity.InvalidActivityException;
+
 import com.dbserver.dbalmoco.models.Voto;
 
 public interface VotoService {
@@ -14,4 +16,5 @@ public interface VotoService {
     void excluirTodosVotos();
   
     void excluirVoto(Integer id);
+    Voto votar(int idUser, int idRestaurante) throws Exception;
 }

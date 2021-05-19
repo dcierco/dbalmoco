@@ -1,21 +1,37 @@
 package com.dbserver.dbalmoco.service.Voto;
 
+
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import javax.activity.InvalidActivityException;
+
+import com.dbserver.dbalmoco.models.Funcionario;
+import com.dbserver.dbalmoco.models.Restaurante;
 import com.dbserver.dbalmoco.models.Voto;
 import com.dbserver.dbalmoco.repository.VotoRepository;
+import com.dbserver.dbalmoco.service.Funcionario.FuncionarioService;
+import com.dbserver.dbalmoco.service.Restaurante.RestauranteService;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import net.bytebuddy.implementation.bytecode.Throw;
 
 @Service
 public class VotoServiceImpl implements VotoService {
     private final VotoRepository votoRepository;
+    private final FuncionarioService funcionarioService;
+    private final RestauranteService restauranteService;
 
-    public VotoServiceImpl(VotoRepository votoRepository){
+    public VotoServiceImpl(VotoRepository votoRepository, FuncionarioService funcionarioService, RestauranteService restauranteService){
         this.votoRepository = votoRepository;
+        this.funcionarioService = funcionarioService;
+        this.restauranteService = restauranteService;
     }
 
     @Override
@@ -47,5 +63,15 @@ public class VotoServiceImpl implements VotoService {
     @Override
     public void excluirTodosVotos() {
         this.votoRepository.deleteAll();
+    }
+
+    @Override
+    public Voto votar(int idUser, int idRestaurante) throws Exception {
+        Funcionario funcionario = this.funcionarioService.obterFuncionarioPorId(idUser);
+        Restaurante restaurante = this.restauranteService.obterRestaurantePorId(idRestaurante);
+        if(funcionario.getVoto() != null){
+            throw(new Exception("O funcionario com o id " + idUser + " já teve seu voto cadastrado hoje!"));
+        }
+        return salvarVoto(new Voto(0, restaurante, funcionario, new Date()));
     }
 }

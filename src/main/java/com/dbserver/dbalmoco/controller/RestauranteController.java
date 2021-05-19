@@ -60,4 +60,10 @@ public class RestauranteController {
     public Restaurante obterMaisVotadoDia() {
         return restauranteService.obterMaisVotadoDia();
     }
+
+    @PutMapping("api/restaurantes/atualizaMV")
+    @ApiOperation(value = "Atualiza o restaurante mais votado do dia!")
+    public void atualizaMaisVotado(){
+        restauranteService.atualizaMaisVotadoDia();
+    }
 }
