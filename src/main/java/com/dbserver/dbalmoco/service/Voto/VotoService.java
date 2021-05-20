@@ -3,7 +3,6 @@ package com.dbserver.dbalmoco.service.Voto;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import javax.activity.InvalidActivityException;
 
 import com.dbserver.dbalmoco.models.Voto;
 

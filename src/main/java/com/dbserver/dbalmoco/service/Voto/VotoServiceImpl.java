@@ -7,7 +7,6 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import javax.activity.InvalidActivityException;
 
 import com.dbserver.dbalmoco.models.Funcionario;
 import com.dbserver.dbalmoco.models.Restaurante;
@@ -16,11 +15,8 @@ import com.dbserver.dbalmoco.repository.VotoRepository;
 import com.dbserver.dbalmoco.service.Funcionario.FuncionarioService;
 import com.dbserver.dbalmoco.service.Restaurante.RestauranteService;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import net.bytebuddy.implementation.bytecode.Throw;
 
 @Service
 public class VotoServiceImpl implements VotoService {

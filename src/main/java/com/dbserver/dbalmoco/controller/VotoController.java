@@ -2,7 +2,6 @@ package com.dbserver.dbalmoco.controller;
 
 import java.util.List;
 
-import javax.activity.InvalidActivityException;
 import javax.validation.Valid;
 
 import com.dbserver.dbalmoco.models.Voto;
