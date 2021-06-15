@@ -18,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
 import org.testng.ITestListener;
 import org.testng.annotations.BeforeMethod;
@@ -64,12 +65,36 @@ public class FuncionarioServiceTest extends AbstractTestNGSpringContextTests imp
 	}
 
     @Test
+    @Transactional
     public void shouldSaveFuncionario(){
         Funcionario funcionario1 = new Funcionario(1, "Funcionario de Teste", null, "teste@teste.com", "teste123", null);
         given(this.funcionarioRepository.save(Mockito.any())).willReturn(funcionario1);
         Assert.assertEquals(funcionario1, this.funcionarioService.salvarFuncionario(funcionario1));
     }
 
+    @Test
+    @Transactional
+    public void shouldDeleteFuncionario(){
+        Funcionario funcionario;
+        this.funcionarioService.excluirFuncionario(1);
+        try {
+        	funcionario = this.funcionarioService.obterFuncionarioPorId(1);
+		} catch (Exception e) {
+			funcionario = null;
+		}
+        Assert.assertNull(funcionario);
+    }
 
+    @Test
+    @Transactional
+    public void shouldUpdateFuncionario(){
+    	Funcionario funcionario = this.funcionarioService.obterFuncionarioPorId(1);
+    	String nomeAntigo = funcionario.getNome();
+        String novoNome = nomeAntigo + "X";
+        funcionario.setNome(novoNome);
+        this.funcionarioService.atualizarFuncionario(funcionario);
+        funcionario = this.funcionarioService.obterFuncionarioPorId(1);
+        Assert.assertEquals(funcionario.getNome(), novoNome);
+    }
 
 }
